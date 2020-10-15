@@ -2,13 +2,14 @@ package in.novopay.MessagingCore.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.novopay.MessagingCore.constants.MessageApiConstants;
@@ -28,7 +29,8 @@ public class MessageServiceApiResource {
 		this.messageService = messageService;
 	}
 
-	@GetMapping("/{messageId}")
+	//@GetMapping("/{messageId}")
+	@RequestMapping(value ="/{messageId}", produces =MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<MessageResponse> getMessageStatus(@PathVariable long messageId) throws InvalidMessageId {
 		MessageResponse response = messageService.getMessageStatus(messageId);
 		return new ResponseEntity<MessageResponse>(response, HttpStatus.OK);
@@ -36,6 +38,7 @@ public class MessageServiceApiResource {
 	}
 
 	@PostMapping("/sendMessage")
+	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<MessageResponse> sendMessage(@RequestBody final MessageData messageData) {
 		MessageResponse response = messageService.sendMessage(messageData);
 		return new ResponseEntity<MessageResponse>(response, HttpStatus.OK);

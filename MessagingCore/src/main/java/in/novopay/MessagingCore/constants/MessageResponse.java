@@ -1,10 +1,22 @@
 package in.novopay.MessagingCore.constants;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum MessageResponse {
-	MSG_DEFAULT_CODE(10, "Created"), MSG_SUBMITTED_CODE(20, "Message has been submitted - queued for delivery"),
+	//@JsonProperty("default-code")
+	MSG_DEFAULT_CODE(10, "Created"),
+	//@JsonProperty("message-submitted")
+	MSG_SUBMITTED_CODE(20, "Message has been submitted - queued for delivery"),
+	//@JsonProperty("message-under-delivery")
 	MSG_UNDER_DELIVERY_CODE(30, "Message is under the process of delivery"),
+	//@JsonProperty("message-delivered")
 	MSG_DELIVERED_CODE(40, "Message has been delivered"),
+	//@JsonProperty("retrying-message-delivery")
 	MSG_DELIVERY_FAILED_RETRY_CODE(50, "Message delivery has failed - retrying"),
+	//@JsonProperty("message-delivery-failed")
 	MSG_DELIVERY_FAILED_NORETRY_CODE(60, "Message delivery has failed permanently - no more retry");
 
 	private final Integer responseCode;
@@ -15,10 +27,12 @@ public enum MessageResponse {
 		this.response = response;
 	}
 
+	//@JsonValue
 	public Integer getResponseCode() {
 		return responseCode;
 	}
 
+	//@JsonValue
 	public String getResponse() {
 		return response;
 	}
@@ -49,6 +63,17 @@ public enum MessageResponse {
 			break;
 		}
 		return result;
+	}
+
+	@JsonCreator
+	public static MessageResponse forValues(@JsonProperty("code") int code) {
+		for (MessageResponse mr : MessageResponse.values()) {
+			if (mr.getResponseCode() == code) {
+				return mr;
+			}
+		}
+
+		return null;
 	}
 
 	@Override
