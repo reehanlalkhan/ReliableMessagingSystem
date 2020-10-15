@@ -7,28 +7,21 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "message")
-public class Message {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class Message extends DatabaseEntity<Long> {
 
 	@Column(name = "message", nullable = false)
 	private String message;
 
-	@Column(name = "sender", nullable = false, columnDefinition = "INT(11) UNSIGNED")
-	private int sender;
+	@Column(name = "sender", nullable = false)
+	private String sender;
 
-	@Column(name = "recipient", nullable = false, columnDefinition = "INT(11) UNSIGNED")
-	private int recipient;
+	@Column(name = "recipient", nullable = false)
+	private String recipient;
 
 	@Column(name = "status", nullable = false, columnDefinition = "INT(3) UNSIGNED")
 	private int status = 10;
@@ -39,16 +32,8 @@ public class Message {
 	@Column(name = "delivery_time")
 	private Date deliveryTime;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "MessagePart", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "message", cascade = CascadeType.ALL)
 	private Set<MessagePart> messageParts;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getMessage() {
 		return message;
@@ -58,19 +43,19 @@ public class Message {
 		this.message = message;
 	}
 
-	public int getSender() {
+	public String getSender() {
 		return sender;
 	}
 
-	public void setSender(int sender) {
+	public void setSender(String sender) {
 		this.sender = sender;
 	}
 
-	public int getRecipient() {
+	public String getRecipient() {
 		return recipient;
 	}
 
-	public void setRecipient(int recipient) {
+	public void setRecipient(String recipient) {
 		this.recipient = recipient;
 	}
 
@@ -102,8 +87,8 @@ public class Message {
 		return messageParts;
 	}
 
-	public void addMessageParts(MessagePart mp) {
-		messageParts.add(mp);
+	public void addMessageParts(MessagePart msgPart) {
+		messageParts.add(msgPart);
 	}
 
 }

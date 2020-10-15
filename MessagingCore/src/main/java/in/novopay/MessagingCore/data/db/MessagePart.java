@@ -6,19 +6,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "messages")
-public class MessagePart {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+@Table(name = "message_part")
+public class MessagePart extends DatabaseEntity<Long> {
 
 	@Column(name = "start_offset", nullable = false, columnDefinition = "INT(11) UNSIGNED")
 	private int startOffset;
@@ -29,16 +24,12 @@ public class MessagePart {
 	@Column(name = "is_last", nullable = false)
 	private boolean isLast = false;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "MessageAcknowledgement", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "messagePart", cascade = CascadeType.ALL)
 	private Set<MessageAcknowledgement> messageAcknwoledgement;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	@ManyToOne
+	@JoinColumn(name = "message_id")
+	private Message message;
 
 	public int getStartOffset() {
 		return startOffset;
@@ -68,7 +59,15 @@ public class MessagePart {
 		return messageAcknwoledgement;
 	}
 
-	public void setMessageAcknwoledgement(Set<MessageAcknowledgement> messageAcknwoledgement) {
-		this.messageAcknwoledgement = messageAcknwoledgement;
+	public void addMessageAck(MessageAcknowledgement msgAck) {
+		this.messageAcknwoledgement.add(msgAck);
+	}
+
+	public Message getMessage() {
+		return message;
+	}
+
+	public void setMessage(Message message) {
+		this.message = message;
 	}
 }

@@ -4,35 +4,49 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "messages")
-public class MessageAcknowledgement {
+@Table(name = "message_ack")
+public class MessageAcknowledgement extends DatabaseEntity<Long> {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(name = "is_ack", nullable = false)
+	private boolean isAck = false;
 
-	@Column(name = "message", nullable = false)
-	private String message;
+	@Column(name = "ack_message")
+	private String ackMessage;
 
-	@Column(name = "sender", nullable = false, columnDefinition = "INT(11) UNSIGNED")
-	private int sender;
+	@Column(name = "ack_time")
+	private Date ackTime;
 	
-	@Column(name = "recipient", nullable = false, columnDefinition = "INT(11) UNSIGNED")
-	private int recipient;
+	@ManyToOne
+	@JoinColumn(name = "message_part_id")
+	private MessagePart messagePart;
 
-	@Column(name = "status", nullable = false, columnDefinition = "INT(3) UNSIGNED")
-	private int status = 10;
+	public boolean isAck() {
+		return isAck;
+	}
 
-	@Column(name = "send_time")
-	private Date sendTime;
+	public void setAck(boolean isAck) {
+		this.isAck = isAck;
+	}
 
-	@Column(name = "delivery_time")
-	private Date deliveryTime;
+	public String getAckMessage() {
+		return ackMessage;
+	}
+
+	public void setAckMessage(String ackMessage) {
+		this.ackMessage = ackMessage;
+	}
+
+	public Date getAckTime() {
+		return ackTime;
+	}
+
+	public void setAckTime(Date ackTime) {
+		this.ackTime = ackTime;
+	}
 
 }

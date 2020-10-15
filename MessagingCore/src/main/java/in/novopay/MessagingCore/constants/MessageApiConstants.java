@@ -5,5 +5,6 @@ public interface MessageApiConstants {
 	String offerServiceRESTName = "message";
 	String SLASH = "/";
 	String HYPHEN = "-";
-	String MESSAGE_REST_CALL = SLASH + offerServiceRESTName;
+	String VERSION = "v1";
+	String MESSAGE_REST_CALL = SLASH + VERSION + SLASH + offerServiceRESTName;
 }
