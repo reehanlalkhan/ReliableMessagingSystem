@@ -12,8 +12,8 @@ SET foreign_key_checks = 1;
 CREATE TABLE `message` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `message` varchar(100) NOT NULL,
-  `sender` int(11) UNSIGNED NOT NULL,
-  `recipient` int(11) UNSIGNED NOT NULL,
+  `sender` varchar(20) UNSIGNED NOT NULL,
+  `recipient` varchar(20) UNSIGNED NOT NULL,
   `status` int(3) NOT NULL DEFAULT '10',
   `send_time` timestamp,
   `delivery_time` timestamp,
