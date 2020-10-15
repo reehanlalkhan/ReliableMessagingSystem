@@ -2,9 +2,14 @@ package in.novopay.MessagingCore.constants;
 
 public interface MessageApiConstants {
 
-	String offerServiceRESTName = "message";
+	String extMessageServiceRESTName = "message";
+	String intMessageServiceRESTName = "sndmsg";
 	String SLASH = "/";
 	String HYPHEN = "-";
 	String VERSION = "v1";
-	String MESSAGE_REST_CALL = SLASH + VERSION + SLASH + offerServiceRESTName;
+	String MESSAGE_REST_CALL = SLASH + VERSION + SLASH + extMessageServiceRESTName;
+
+	String SEND_MESSAGE_REST_CALL = SLASH + VERSION + SLASH + intMessageServiceRESTName;
+
+	int MSG_PART_SIZE = 150;
 }

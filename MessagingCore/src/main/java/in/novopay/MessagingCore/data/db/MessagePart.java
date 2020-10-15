@@ -20,6 +20,9 @@ public class MessagePart extends DatabaseEntity<Long> {
 
 	@Column(name = "end_offset", nullable = false, columnDefinition = "INT(11) UNSIGNED")
 	private int endOffset;
+	
+	@Column(name = "message_part")
+	private String messagePart;
 
 	@Column(name = "is_last", nullable = false)
 	private boolean isLast = false;
@@ -30,6 +33,9 @@ public class MessagePart extends DatabaseEntity<Long> {
 	@ManyToOne
 	@JoinColumn(name = "message_id")
 	private Message message;
+
+	@Column(name = "is_delivered", nullable = false)
+	private boolean isDelivered;
 
 	public int getStartOffset() {
 		return startOffset;
@@ -45,6 +51,14 @@ public class MessagePart extends DatabaseEntity<Long> {
 
 	public void setEndOffset(int endOffset) {
 		this.endOffset = endOffset;
+	}
+
+	public String getMessagePart() {
+		return messagePart;
+	}
+
+	public void setMessagePart(String messagePart) {
+		this.messagePart = messagePart;
 	}
 
 	public boolean isLast() {
@@ -69,5 +83,13 @@ public class MessagePart extends DatabaseEntity<Long> {
 
 	public void setMessage(Message message) {
 		this.message = message;
+	}
+	
+	public boolean getIsDelivered() {
+		return this.isDelivered;
+	}
+
+	public void setIsDelivered(boolean isDelivered) {
+		this.isDelivered = isDelivered;
 	}
 }
