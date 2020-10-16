@@ -12,4 +12,6 @@ public interface MessagePlatformService {
 
 	MessageResponse getMessageStatus(long messageId) throws InvalidMessageId;
 
+	void acknowledgeMessage(long messageId, long partId);
+
 }

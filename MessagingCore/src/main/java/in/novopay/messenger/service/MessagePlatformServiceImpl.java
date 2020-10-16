@@ -37,14 +37,14 @@ public class MessagePlatformServiceImpl implements MessagePlatformService, Messa
 
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
 	@Autowired
 	private Environment env;
 
 	@Override
-	public MessageResponse sendMessage(MessageData messageData) throws MessageSizeLimitExceeded{
+	public MessageResponse sendMessage(MessageData messageData) throws MessageSizeLimitExceeded {
 		logger.debug("MessagePlatformServiceImpl.sendMessage::Data:" + messageData);
-		if(messageData.getMessage().length() > MSG_SIZE) {
+		if (messageData.getMessage().length() > MSG_SIZE) {
 			throw new MessageSizeLimitExceeded();
 		}
 		Message m = new Message();
@@ -108,7 +108,7 @@ public class MessagePlatformServiceImpl implements MessagePlatformService, Messa
 		for (MessagePart messagePart : messagesToBeDelivered) {
 			MessageData data = MessageData.instance(messagePart.getMessagePart(), sender, recipient);
 			boolean result = RestMessagingUtil.sendRequest(restTemplate, env, data);
-			if(result == true) {
+			if (result == true) {
 				messagePart.setIsDelivered(true);
 			} else {
 				messagePart.setIsDelivered(false);
@@ -126,6 +126,29 @@ public class MessagePlatformServiceImpl implements MessagePlatformService, Messa
 		} catch (EntityNotFoundException exp) {
 			throw new InvalidMessageId(messageId);
 		}
+	}
+
+	@Override
+	public void acknowledgeMessage(long messageId, long partId) {
+		MessagePart messagePart = messagePartDao.getMessagePartWithMessageIdPartId(messageId, partId);
+		messagePart.setIsAcknowledged(true);
+		messagePartDao.saveAndFlush(messagePart);
+
+		List<MessagePart> allParts = messagePartDao.getAllPartsForMessageId(messageId);
+
+		boolean isAllDelivered = true;
+		for (MessagePart part : allParts) {
+			if (!part.getIsAcknowledged()) {
+				isAllDelivered = false;
+				break;
+			}
+		}
+		if (isAllDelivered) {
+			Message m = messageDao.getOne(messageId);
+			m.setStatus(MessageResponse.MSG_DELIVERED_CODE.getResponseCode());
+			messageDao.saveAndFlush(m);
+		}
+
 	}
 
 }

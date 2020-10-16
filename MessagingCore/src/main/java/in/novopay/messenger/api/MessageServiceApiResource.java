@@ -46,9 +46,9 @@ public class MessageServiceApiResource {
 	}
 
 	@PutMapping("/{messageId}/{partId}")
-	public ResponseEntity acknowledgeMessage(@PathVariable long messageId, @PathVariable long partId) {
-		MessageResponse response = MessageResponse.MSG_DEFAULT_CODE;
-		return new ResponseEntity(response.getResponse(), HttpStatus.OK);
+	public HttpStatus acknowledgeMessage(@PathVariable long messageId, @PathVariable long partId) {
+		messageService.acknowledgeMessage(messageId, partId);
+		return HttpStatus.OK;
 	}
 
 }
