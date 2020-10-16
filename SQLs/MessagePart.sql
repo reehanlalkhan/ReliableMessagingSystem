@@ -16,6 +16,7 @@ CREATE TABLE `message_part` (
   `message_part` varchar(150) NOT NULL,
   `is_last` TINYINT(1) NOT NULL DEFAULT '0',
   `is_delivered` TINYINT(1) NOT NULL DEFAULT '0',
+  `is_acknowledged` TINYINT(1) NOT NULL DEFAULT '0',
   `message_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `FK_part_in_message` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`)
