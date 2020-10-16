@@ -1,14 +1,9 @@
-package in.novopay.MessagingCore.data.db;
+package in.novopay.messenger.data.db;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,15 +15,15 @@ public class MessagePart extends DatabaseEntity<Long> {
 
 	@Column(name = "end_offset", nullable = false, columnDefinition = "INT(11) UNSIGNED")
 	private int endOffset;
-	
+
 	@Column(name = "message_part")
 	private String messagePart;
 
 	@Column(name = "is_last", nullable = false)
 	private boolean isLast = false;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "messagePart", cascade = CascadeType.ALL)
-	private Set<MessageAcknowledgement> messageAcknwoledgement;
+	@Column(name = "is_acknowledged", nullable = false)
+	private boolean isAcknowledged = false;
 
 	@ManyToOne
 	@JoinColumn(name = "message_id")
@@ -69,12 +64,12 @@ public class MessagePart extends DatabaseEntity<Long> {
 		this.isLast = isLast;
 	}
 
-	public Set<MessageAcknowledgement> getMessageAcknwoledgement() {
-		return messageAcknwoledgement;
+	public boolean getIsAcknowledged() {
+		return this.isAcknowledged;
 	}
 
-	public void addMessageAck(MessageAcknowledgement msgAck) {
-		this.messageAcknwoledgement.add(msgAck);
+	public void setIsAcknowledged(boolean isAcknowledged) {
+		this.isAcknowledged = isAcknowledged;
 	}
 
 	public Message getMessage() {
@@ -84,7 +79,7 @@ public class MessagePart extends DatabaseEntity<Long> {
 	public void setMessage(Message message) {
 		this.message = message;
 	}
-	
+
 	public boolean getIsDelivered() {
 		return this.isDelivered;
 	}

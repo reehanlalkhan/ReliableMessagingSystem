@@ -1,4 +1,4 @@
-package in.novopay.MessagingCore.exception;
+package in.novopay.messenger.exception;
 
 public class InvalidMessageId extends Exception {
 	public InvalidMessageId(final long messageId) {

@@ -1,9 +1,9 @@
-package in.novopay.MessagingCore.service;
+package in.novopay.messenger.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import in.novopay.MessagingCore.data.dao.MessagePartDataDao;
-import in.novopay.MessagingCore.data.dto.MessageData;
+import in.novopay.messenger.data.dao.MessagePartDataDao;
+import in.novopay.messenger.data.dto.MessageData;
 
 public class SendMessagePlatformServiceImpl implements SendMessagePlatformService {
 

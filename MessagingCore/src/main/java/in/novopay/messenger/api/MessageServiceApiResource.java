@@ -1,4 +1,4 @@
-package in.novopay.MessagingCore.api;
+package in.novopay.messenger.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import in.novopay.MessagingCore.constants.MessageApiConstants;
-import in.novopay.MessagingCore.constants.MessageResponse;
-import in.novopay.MessagingCore.data.dto.MessageData;
-import in.novopay.MessagingCore.exception.InvalidMessageId;
-import in.novopay.MessagingCore.service.MessagePlatformService;
+import in.novopay.messenger.constants.MessageApiConstants;
+import in.novopay.messenger.constants.MessageResponse;
+import in.novopay.messenger.data.dto.MessageData;
+import in.novopay.messenger.exception.InvalidMessageId;
+import in.novopay.messenger.service.MessagePlatformService;
 
 @RestController
 @RequestMapping(MessageApiConstants.MESSAGE_REST_CALL)

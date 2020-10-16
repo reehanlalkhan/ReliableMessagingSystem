@@ -1,4 +1,4 @@
-package in.novopay.MessagingCore.constants;
+package in.novopay.messenger.constants;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;

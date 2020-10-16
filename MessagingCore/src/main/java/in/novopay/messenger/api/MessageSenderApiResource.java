@@ -1,13 +1,13 @@
-package in.novopay.MessagingCore.api;
+package in.novopay.messenger.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import in.novopay.MessagingCore.constants.MessageApiConstants;
-import in.novopay.MessagingCore.data.dto.MessageData;
-import in.novopay.MessagingCore.service.SendMessagePlatformService;
+import in.novopay.messenger.constants.MessageApiConstants;
+import in.novopay.messenger.data.dto.MessageData;
+import in.novopay.messenger.service.SendMessagePlatformService;
 
 @RestController
 @RequestMapping(MessageApiConstants.SEND_MESSAGE_REST_CALL)

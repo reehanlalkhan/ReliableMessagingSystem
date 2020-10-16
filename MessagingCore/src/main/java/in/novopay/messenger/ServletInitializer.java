@@ -1,4 +1,4 @@
-package in.novopay.MessagingCore;
+package in.novopay.messenger;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

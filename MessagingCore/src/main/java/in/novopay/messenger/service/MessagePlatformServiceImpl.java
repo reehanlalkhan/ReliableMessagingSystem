@@ -1,4 +1,4 @@
-package in.novopay.MessagingCore.service;
+package in.novopay.messenger.service;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -13,15 +13,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import in.novopay.MessagingCore.constants.MessageApiConstants;
-import in.novopay.MessagingCore.constants.MessageResponse;
-import in.novopay.MessagingCore.data.dao.MessageDataDao;
-import in.novopay.MessagingCore.data.dao.MessagePartDataDao;
-import in.novopay.MessagingCore.data.db.Message;
-import in.novopay.MessagingCore.data.db.MessagePart;
-import in.novopay.MessagingCore.data.dto.MessageData;
-import in.novopay.MessagingCore.exception.InvalidMessageId;
-import in.novopay.MessagingCore.utils.NovoStringUtils;
+import in.novopay.messenger.constants.MessageApiConstants;
+import in.novopay.messenger.constants.MessageResponse;
+import in.novopay.messenger.data.dao.MessageDataDao;
+import in.novopay.messenger.data.dao.MessagePartDataDao;
+import in.novopay.messenger.data.db.Message;
+import in.novopay.messenger.data.db.MessagePart;
+import in.novopay.messenger.data.dto.MessageData;
+import in.novopay.messenger.exception.InvalidMessageId;
+import in.novopay.messenger.utils.NovoStringUtils;
 
 @Service
 public class MessagePlatformServiceImpl implements MessagePlatformService, MessageApiConstants {
@@ -92,6 +92,7 @@ public class MessagePlatformServiceImpl implements MessagePlatformService, Messa
 		}
 		m.setStatus(MessageResponse.MSG_UNDER_DELIVERY_CODE.getResponseCode());
 		messageDao.saveAndFlush(m);
+		submitMessageToService(listOfMessagesToBeDelivered);
 	}
 
 	private void submitMessageToService(List<MessagePart> messagesToBeDelivered) {
@@ -99,7 +100,6 @@ public class MessagePlatformServiceImpl implements MessagePlatformService, Messa
 		String recipient = messagesToBeDelivered.get(0).getMessage().getRecipient();
 		for (MessagePart messagePart : messagesToBeDelivered) {
 			MessageData data = MessageData.instance(messagePart.getMessagePart(), sender, recipient);
-
 			// Build URI
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/sndmsg").buildAndExpand().toUri();
 			boolean result = restTemplate.postForObject(location, data, Boolean.class);
@@ -109,7 +109,6 @@ public class MessagePlatformServiceImpl implements MessagePlatformService, Messa
 				messagePart.setIsDelivered(false);
 				break;
 			}
-
 		}
 	}
 

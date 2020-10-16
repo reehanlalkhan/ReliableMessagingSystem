@@ -1,4 +1,4 @@
-package in.novopay.MessagingCore.data.dto;
+package in.novopay.messenger.data.dto;
 
 import java.io.Serializable;
 

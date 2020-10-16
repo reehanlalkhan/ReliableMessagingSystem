@@ -1,4 +1,4 @@
-package in.novopay.MessagingCore.constants;
+package in.novopay.messenger.constants;
 
 public interface MessageApiConstants {
 

@@ -1,4 +1,4 @@
-package in.novopay.MessagingCore.utils;
+package in.novopay.messenger.utils;
 
 import java.util.ArrayList;
 import java.util.List;
