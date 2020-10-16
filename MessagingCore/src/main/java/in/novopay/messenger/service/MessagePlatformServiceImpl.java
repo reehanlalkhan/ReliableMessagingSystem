@@ -1,6 +1,5 @@
 package in.novopay.messenger.service;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +8,9 @@ import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import in.novopay.messenger.constants.MessageApiConstants;
 import in.novopay.messenger.constants.MessageResponse;
@@ -21,7 +20,9 @@ import in.novopay.messenger.data.db.Message;
 import in.novopay.messenger.data.db.MessagePart;
 import in.novopay.messenger.data.dto.MessageData;
 import in.novopay.messenger.exception.InvalidMessageId;
+import in.novopay.messenger.exception.MessageSizeLimitExceeded;
 import in.novopay.messenger.utils.NovoStringUtils;
+import in.novopay.messenger.utils.RestMessagingUtil;
 
 @Service
 public class MessagePlatformServiceImpl implements MessagePlatformService, MessageApiConstants {
@@ -36,10 +37,16 @@ public class MessagePlatformServiceImpl implements MessagePlatformService, Messa
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private Environment env;
 
 	@Override
-	public MessageResponse sendMessage(MessageData messageData) {
+	public MessageResponse sendMessage(MessageData messageData) throws MessageSizeLimitExceeded{
 		logger.debug("MessagePlatformServiceImpl.sendMessage::Data:" + messageData);
+		if(messageData.getMessage().length() > MSG_SIZE) {
+			throw new MessageSizeLimitExceeded();
+		}
 		Message m = new Message();
 		m.setMessage(messageData.getMessage());
 		m.setSender(messageData.getSender());
@@ -100,9 +107,7 @@ public class MessagePlatformServiceImpl implements MessagePlatformService, Messa
 		String recipient = messagesToBeDelivered.get(0).getMessage().getRecipient();
 		for (MessagePart messagePart : messagesToBeDelivered) {
 			MessageData data = MessageData.instance(messagePart.getMessagePart(), sender, recipient);
-			// Build URI
-			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/sndmsg").buildAndExpand().toUri();
-			boolean result = restTemplate.postForObject(location, data, Boolean.class);
+			boolean result = RestMessagingUtil.sendRequest(restTemplate, env, data);
 			if(result == true) {
 				messagePart.setIsDelivered(true);
 			} else {

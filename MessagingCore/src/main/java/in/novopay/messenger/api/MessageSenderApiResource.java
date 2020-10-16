@@ -21,7 +21,7 @@ public class MessageSenderApiResource {
 	}
 
 	@PostMapping()
-	public boolean getMessageStatus(MessageData data) {
+	public boolean sendMessage(MessageData data) {
 		return sendMessageService.sendMessage(data);
 	}
 

@@ -16,6 +16,7 @@ import in.novopay.messenger.constants.MessageApiConstants;
 import in.novopay.messenger.constants.MessageResponse;
 import in.novopay.messenger.data.dto.MessageData;
 import in.novopay.messenger.exception.InvalidMessageId;
+import in.novopay.messenger.exception.MessageSizeLimitExceeded;
 import in.novopay.messenger.service.MessagePlatformService;
 
 @RestController
@@ -39,7 +40,7 @@ public class MessageServiceApiResource {
 
 	@PostMapping("/sendMessage")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<MessageResponse> sendMessage(@RequestBody final MessageData messageData) {
+	public ResponseEntity<MessageResponse> sendMessage(@RequestBody final MessageData messageData) throws MessageSizeLimitExceeded {
 		MessageResponse response = messageService.sendMessage(messageData);
 		return new ResponseEntity<MessageResponse>(response, HttpStatus.OK);
 	}

@@ -13,6 +13,12 @@ public class MessageData implements Comparable<MessageData>, Serializable {
 		return new MessageData(message, sender, recipient);
 	}
 
+	public MessageData() {
+		this.message = null;
+		this.sender = null;
+		this.recipient = null;
+	}
+
 	protected MessageData(final String message, final String sender, final String recipient) {
 		this.message = message;
 		this.sender = sender;

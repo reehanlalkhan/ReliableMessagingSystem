@@ -7,6 +7,8 @@ public interface MessageApiConstants {
 	String SLASH = "/";
 	String HYPHEN = "-";
 	String VERSION = "v1";
+	String PORT = "server.port";
+	int MSG_SIZE = 500;
 	String MESSAGE_REST_CALL = SLASH + VERSION + SLASH + extMessageServiceRESTName;
 
 	String SEND_MESSAGE_REST_CALL = SLASH + VERSION + SLASH + intMessageServiceRESTName;
