@@ -1,10 +1,12 @@
 package in.novopay.messenger.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import in.novopay.messenger.data.dao.MessagePartDataDao;
 import in.novopay.messenger.data.dto.MessageData;
 
+@Service
 public class SendMessagePlatformServiceImpl implements SendMessagePlatformService {
 
 	@Autowired
